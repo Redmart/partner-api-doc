@@ -127,7 +127,7 @@ Each endpoint of this API limits how many times you can call it per second. Belo
 | [Get all Stock Lots](#get-all-stock-lots)             | 10                             |
 | [Get one Stock Lot](#get-one-stock-lot)               | 10                             |
 | [Update one Stock Lot](#update-one-stock-lot)         | 10                             |
-| [Get Pickup Jobs](#get-pickup-jobs)                   | 5                              |
+| [Get Pickup Jobs](#get-pickup-jobs)                   | 1                              |
 | [Get one Pickup Job](#get-one-pickup-job)             | 10                             |
 
 Each (successful) response from the above endpoints contains 2 headers you can monitor to help control your rate
