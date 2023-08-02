@@ -27,7 +27,9 @@ We will list any changes to the current version of the API here.
 
 | Date       | Details of changes                                                                                               |
 | ---------- | ---------------------------------------------------------------------------------------------------------------- |
-| 2023-08-03 |                                                                                                                  |
+| 2023-08-03 | Adds [Pickup Jobs](#pickup-jobs) API                                                                             |
+|            | Adds new [scope](#scopes) for pickup jobs query                                                                  |
+|            | Adds new [rate limits](#rate-limiting) for pickup jobs query                                                     |
 | 2018-07-06 | Pre-release of RedMart Partner API Document Version 1                                                            |
 | 2018-07-13 | Renames _Stocks_ as **Stock Lots**                                                                               |
 |            | Identifies each Stock Lot by their **new `id` field** (rather than the previously used `availableForPickupFrom`) |
@@ -110,6 +112,7 @@ To call any endpoint of this API, your access token needs to have access to the 
 | read:product         | Grants access to view details of a product         |
 | read:stock-lot       | Grants access to view stock lots of a product      |
 | write:stock-lot      | Grants access to update stock lots of a product    |
+| read:pickup-job      | Grants access to view pickup jobs of a store       |
 
 # Rate Limiting
 
@@ -124,6 +127,8 @@ Each endpoint of this API limits how many times you can call it per second. Belo
 | [Get all Stock Lots](#get-all-stock-lots)             | 10                             |
 | [Get one Stock Lot](#get-one-stock-lot)               | 10                             |
 | [Update one Stock Lot](#update-one-stock-lot)         | 10                             |
+| [Get Pickup Jobs](#get-pickup-jobs)                   | 5                              |
+| [Get one Pickup Job](#get-one-pickup-job)             | 10                             |
 
 Each (successful) response from the above endpoints contains 2 headers you can monitor to help control your rate
 
@@ -682,6 +687,179 @@ To perform this operation, you must be authenticated by means of one of the foll
 OAuth2 ( Scopes: write:stock-lot )
 </aside>
 
+# Pickup Jobs
+
+The Pickup Jobs API allows you to retrieve scheduled or completed pickup jobs.
+
+<aside class="warning">
+To perform all <b>Pickup Jobs</b> operations, you must always send your oauth2 access-token (see the <a href="#request-a-token">Request a Token</a> section).
+Look at the 'Authorization' header in the code samples.
+</aside>
+
+## Get all Pickup Jobs
+
+<a id="get-all-pickup-jobs"></a>
+
+> Code samples
+
+```shell
+
+curl --include -X GET \
+     "https://{HOSTNAME}/v1/pickup-jobs?from=1682870400000&till=1685548800000&statuses=pending" \
+     -H 'Accept: application/json' \
+     -H 'Authorization: Bearer {access-token}'
+
+```
+
+```scala
+// TODO
+```
+
+`GET /v1/pickup-locations`
+
+_Query and filter pickup jobs. Maximum allowable date range query is 31 days. Unable to retrieve data older than 6 months._
+
+<h3 id="getpickup-jobs-from-till-statuses-parameters">Query Parameters</h3>
+
+| Parameter | In    | Type          | Required | Description                                                                                                      |
+| --------- | ----- | ------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| from      | query | integer       | true     | Epoch milliseconds of start of date range query                                                                  |
+| till      | query | integer       | false    | Epoch milliseconds of end of date range query                                                                    |
+| statuses  | query | array[string] | false    | Comma-separated job statuses that you want to include. Refer to [JobStatus](#schemajobstatus) for valid statuses |
+
+> 200 Response
+
+```json
+[
+  {
+    "scheduledAt": 0,
+    "qtyFulfilledCount": 0,
+    "amendabilityCutOffDate": 0,
+    "preferredPickupTime": "string",
+    "items": [
+      {
+        "name": "string",
+        "qtyFulfilled": 0,
+        "sku": "string",
+        "size": "string",
+        "shipmentsInfo": [
+          {
+            "qty": 0,
+            "orderId": "string"
+          }
+        ],
+        "minimumExpiryDate": "string",
+        "qty": 0,
+        "vpc": "string",
+        "imageUrl": "string",
+        "rpc": 0
+      }
+    ],
+    "pickedAt": 0,
+    "id": 0,
+    "status": "string",
+    "category": "string",
+    "qtyCount": 0
+  }
+]
+```
+
+<h3 id="getpickup-jobs-from-till-statuses-responses">Responses</h3>
+
+| Status | Meaning                                                          | Description | Schema                                |
+| ------ | ---------------------------------------------------------------- | ----------- | ------------------------------------- |
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)          | OK          | [List of PickupJob](#schemapickupjob) |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1) | Bad Request | [Problem](#schemaproblem)             |
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+OAuth2 ( Scopes: read:pickup-location )
+</aside>
+
+## Get one Pickup Job
+
+<a id="get-one-pickup-job"></a>
+
+> Code samples
+
+```shell
+
+curl --include -X GET \
+     "https://{HOSTNAME}/v1/pickup-jobs/{pickupJobId}" \
+     -H 'Accept: application/json' \
+     -H 'Authorization: Bearer {access-token}'
+
+```
+
+```scala
+// TODO
+```
+
+`GET /v1/pickup-jobs/{pickupJobId}`
+
+_Querying one pickup job by pickupJobId_
+
+<h3 id="getpickup-jobs-pickupjobid-parameters">Path Parameters</h3>
+
+| Parameter   | In   | Type   | Required | Description                     |
+| ----------- | ---- | ------ | -------- | ------------------------------- |
+| pickupJobId | path | string | true     | Unique identifier of pickup job |
+
+> 200 Response
+
+```json
+{
+  "scheduledAt": 0,
+  "qtyFulfilledCount": 0,
+  "amendabilityCutOffDate": 0,
+  "preferredPickupTime": "string",
+  "items": [
+    {
+      "name": "string",
+      "qtyFulfilled": 0,
+      "sku": "string",
+      "size": "string",
+      "shipmentsInfo": [
+        {
+          "qty": 0,
+          "orderId": "string"
+        }
+      ],
+      "minimumExpiryDate": "string",
+      "qty": 0,
+      "vpc": "string",
+      "imageUrl": "string",
+      "rpc": 0
+    }
+  ],
+  "pickedAt": 0,
+  "id": 0,
+  "status": "string",
+  "category": "string",
+  "qtyCount": 0
+}
+```
+
+> 404 Response
+
+```json
+{
+  "title": "Could not find store or pickup job"
+}
+```
+
+<h3 id="getpickup-jobs-pickupjobid-responses">Responses</h3>
+
+| Status | Meaning                                                        | Description                                | Schema                        |
+| ------ | -------------------------------------------------------------- | ------------------------------------------ | ----------------------------- |
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)        | OK                                         | [PickupJob](#schemapickupjob) |
+| 404    | [Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4) | Pickup job associated with store not Found | [Problem](#schemaproblem)     |
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+OAuth2 ( Scopes: read:pickup-job )
+</aside>
+
 # _Schemas_
 
 All schemas referenced in the APIs documented above
@@ -932,3 +1110,157 @@ _Page«Product»_
 | pageSize | integer(int32)              | true     | none         | none        |
 | items    | [[Product](#schemaproduct)] | true     | none         | none        |
 | total    | integer(int32)              | false    | none         | none        |
+
+<h2 id="tocS_PickupJob">PickupJob</h2>
+<!-- backwards compatibility -->
+<a id="schemapickupjob"></a>
+<a id="schema_PickupJob"></a>
+<a id="tocSpickupjob"></a>
+<a id="tocspickupjob"></a>
+
+```json
+{
+  "scheduledAt": 0,
+  "qtyFulfilledCount": 0,
+  "amendabilityCutOffDate": 0,
+  "preferredPickupTime": "string",
+  "items": [
+    {
+      "name": "string",
+      "qtyFulfilled": 0,
+      "sku": "string",
+      "size": "string",
+      "shipmentsInfo": [
+        {
+          "qty": 0,
+          "orderId": "string"
+        }
+      ],
+      "minimumExpiryDate": "string",
+      "qty": 0,
+      "vpc": "string",
+      "imageUrl": "string",
+      "rpc": 0
+    }
+  ],
+  "pickedAt": 0,
+  "id": 0,
+  "status": "string",
+  "category": "string",
+  "qtyCount": 0
+}
+```
+
+_PickupJob_
+
+### Properties
+
+| Name                   | Type                              | Required | Restrictions | Description                                                                |
+| ---------------------- | --------------------------------- | -------- | ------------ | -------------------------------------------------------------------------- |
+| scheduledAt            | integer(int64)                    | true     | none         | Epoch milliseconds of scheduled pick up time                               |
+| qtyFulfilledCount      | integer(int32)                    | true     | none         | Actual number of items picked up in the scheduled job                      |
+| amendabilityCutOffDate | integer(int64)                    | false    | none         | Epoch milliseconds after which pickup job cannot be amended (if available) |
+| preferredPickupTime    | string                            | false    | none         | Preferred pickup time/range specified by seller (if applicable)            |
+| items                  | [[PickupItem](#schemapickupitem)] | true     | none         | List of items being picked up                                              |
+| pickedAt               | integer(int64)                    | false    | none         | Epoch milliseconds of actual pickup time                                   |
+| id                     | integer(int64)                    | true     | none         | Pickup job id                                                              |
+| status                 | string                            | true     | none         | Pickup job status. Refer to [JobStatus](#schemajobstatus) for more details |
+| category               | string                            | true     | none         | Category of products being picked up, e.g. dry, fresh, frozen, etc         |
+| qtyCount               | integer(int32)                    | true     | none         | Number of items to be picked up in the scheduled job                       |
+
+<h2 id="tocS_PickupItem">PickupItem</h2>
+<!-- backwards compatibility -->
+<a id="schemapickupitem"></a>
+<a id="schema_PickupItem"></a>
+<a id="tocSpickupitem"></a>
+<a id="tocspickupitem"></a>
+
+```json
+{
+  "name": "string",
+  "qtyFulfilled": 0,
+  "sku": "string",
+  "size": "string",
+  "shipmentsInfo": [
+    {
+      "qty": 0,
+      "orderId": "string"
+    }
+  ],
+  "minimumExpiryDate": "string",
+  "qty": 0,
+  "vpc": "string",
+  "imageUrl": "string",
+  "rpc": 0
+}
+```
+
+_PickupItem_
+
+### Properties
+
+| Name              | Type                                  | Required | Restrictions | Description                                                  |
+| ----------------- | ------------------------------------- | -------- | ------------ | ------------------------------------------------------------ |
+| name              | string                                | true     | none         | Name of item                                                 |
+| qtyFulfilled      | integer(int32)                        | false    | none         | Quantity of the item being picked up in actual job           |
+| sku               | string                                | true     | none         | Stock Keeping Unit (SKU) code for the item                   |
+| size              | string                                | false    | none         | The size or dimensions of the item (if available)            |
+| shipmentsInfo     | [[ShipmentInfo](#schemashipmentinfo)] | false    | none         | List of orders for the pickup of this item                   |
+| minimumExpiryDate | string                                | false    | none         | Minimum expiry date of item                                  |
+| qty               | integer(int32)                        | true     | none         | Quantity of the item to be picked up in scheduled job        |
+| vpc               | string                                | false    | none         | none                                                         |
+| imageUrl          | string                                | false    | none         | The URL of the image associated with the item (if available) |
+| rpc               | integer(int64)                        | true     | none         | The RPC (RedMart Product Code) of an item                    |
+
+<h2 id="tocS_ShipmentInfo">ShipmentInfo</h2>
+<!-- backwards compatibility -->
+<a id="schemashipmentinfo"></a>
+<a id="schema_ShipmentInfo"></a>
+<a id="tocSshipmentinfo"></a>
+<a id="tocsshipmentinfo"></a>
+
+```json
+{
+  "qty": 0,
+  "orderId": "string"
+}
+```
+
+_ShipmentInfo_
+
+### Properties
+
+| Name    | Type           | Required | Restrictions | Description                    |
+| ------- | -------------- | -------- | ------------ | ------------------------------ |
+| qty     | integer(int32) | true     | none         | Quantity of item               |
+| orderId | string         | true     | none         | Unique identifier of the order |
+
+<h2 id="tocSjobstatus">JobStatus</h2>
+
+<a id="schemajobstatus"></a>
+
+```json
+"pickedup"
+```
+
+_JobStatus_
+
+### Possible Job Status
+
+Query using values in string column.
+
+| Status               | String                 | Description                      |
+| -------------------- | ---------------------- | -------------------------------- |
+| Pending              | "pending"              | Job pending                      |
+| PickupArrived        | "arrived"              | Driver arrived                   |
+| PickedUp             | "pickedup"             | Items picked up                  |
+| PickupNoShow         | "noshow"               | Seller no show for driver pickup |
+| DropOffStarted       | "dropoffstarted"       | Seller drop off started          |
+| DropOffArrived       | "dropoffarrived"       | Seller drop off arrived          |
+| DroppedOff           | "droppedoff"           | Seller drop off completed        |
+| DropOffNoShow        | "dropoffnoshow"        | Seller drop off no show          |
+| Cancelled            | "cancelled"            | Job cancelled                    |
+| Rescheduled          | "rescheduled"          | Job rescheduled                  |
+| PickupFailed         | "failed"               | Pickup failed                    |
+| DropOffUndeliverable | "dropoffundeliverable" | Seller drop off undeliverable    |
+| DeliveredCPOD        | "deliveredcpod"        | none                             |
