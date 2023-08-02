@@ -715,9 +715,9 @@ curl --include -X GET \
 // TODO
 ```
 
-`GET /v1/pickup-locations`
+`GET /v1/pickup-jobs`
 
-_Query and filter pickup jobs. Maximum allowable date range query is 31 days. Unable to retrieve data older than 6 months._
+_Query and filter pickup jobs. Maximum allowable date range query is 31 days. Unable to retrieve data older than 180 days._
 
 <h3 id="getpickup-jobs-from-till-statuses-parameters">Query Parameters</h3>
 
