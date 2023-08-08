@@ -26,7 +26,7 @@ We will list any changes to the current version of the API here.
 
 | Date       | Details of changes                                                                                               |
 | ---------- | ---------------------------------------------------------------------------------------------------------------- |
-| 2023-08-03 | Adds [Pickup Jobs](#pickup-jobs) API                                                                             |
+| 2023-08-10 | Adds [Pickup Jobs](#pickup-jobs) API                                                                             |
 |            | Adds new [scope](#scopes) for pickup jobs query                                                                  |
 |            | Adds new [rate limits](#rate-limiting) for pickup jobs query                                                     |
 | 2018-07-06 | Pre-release of RedMart Partner API Document Version 1                                                            |
