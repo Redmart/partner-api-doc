@@ -1251,18 +1251,10 @@ _JobStatus_
 
 Query using values in string column.
 
-| Status               | String                 | Description                      |
-| -------------------- | ---------------------- | -------------------------------- |
-| Pending              | "pending"              | Job pending                      |
-| PickupArrived        | "arrived"              | Driver arrived                   |
-| PickedUp             | "pickedup"             | Items picked up                  |
-| PickupNoShow         | "noshow"               | Seller no show for driver pickup |
-| DropOffStarted       | "dropoffstarted"       | Seller drop off started          |
-| DropOffArrived       | "dropoffarrived"       | Seller drop off arrived          |
-| DroppedOff           | "droppedoff"           | Seller drop off completed        |
-| DropOffNoShow        | "dropoffnoshow"        | Seller drop off no show          |
-| Cancelled            | "cancelled"            | Job cancelled                    |
-| Rescheduled          | "rescheduled"          | Job rescheduled                  |
-| PickupFailed         | "failed"               | Pickup failed                    |
-| DropOffUndeliverable | "dropoffundeliverable" | Seller drop off undeliverable    |
-| DeliveredCPOD        | "deliveredcpod"        | none                             |
+| Status        | String      | Description     |
+| ------------- | ----------- | --------------- |
+| Pending       | "pending"   | Job pending     |
+| PickupArrived | "arrived"   | Driver arrived  |
+| PickedUp      | "pickedup"  | Items picked up |
+| Cancelled     | "cancelled" | Job cancelled   |
+| PickupFailed  | "failed"    | Pickup failed   |
