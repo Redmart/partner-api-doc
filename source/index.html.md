@@ -52,13 +52,11 @@ The Partner API uses the [OAuth2 authorization framework](https://tools.ietf.org
 
 In a nutshell :
 
-1.  Register your Client Application in [partner-portal](https://partners.redmart.com)
+1.  Register your Client Application in [RedMart Self Serve Portal](https://sellercenter-staging.lazada.sg/portal/rmss/seller/homepage)
 2.  Save (securely) your CLIENT_ID and CLIENT_SECRET into your Client Application's database
 3.  Client Application requests an Access Token from Partner API using its CLIENT_ID and CLIENT SECRET
 4.  Client Application uses the Access Token to call Partner API endpoints
 5.  Once Client Application starts receiving [_401 Unauthorized_](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2) responses to its calls, it means the Access Token has expired. It then needs to request another Access Token (step 3)
-
-<aside class="warning">The registration phase in partner-portal (step 1) won't actually be part of the initial release and will be invite-only. Contact RedMart directly, provide your Client Application name and we'll register it for you. We'll then forward your CLIENT_ID and CLIENT_SECRET.</aside>
 
 # Request a Token
 
@@ -691,12 +689,16 @@ OAuth2 ( Scopes: write:stock-lot )
 
 The Pickup Jobs API allows you to retrieve scheduled or completed pickup jobs.
 
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name.  
+</aside>
+
 <aside class="warning">
 To perform all <b>Pickup Jobs</b> operations, you must always send your oauth2 access-token (see the <a href="#request-a-token">Request a Token</a> section).
 Look at the 'Authorization' header in the code samples.
 </aside>
 
-## Get all Pickup Jobs
+## Get Pickup Jobs
 
 <a id="get-all-pickup-jobs"></a>
 
