@@ -3,7 +3,6 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - scala
 
 toc_footers:
   - RedMart Partner API <i>version 0.3.0</i>
@@ -19,7 +18,7 @@ search: true
 
 This is the official documentation of RedMart's Marketplace **Partner API**. Using this private API, you'll be able to manage your inventory, products, orders, pickups and more!
 
-We provide language bindings in Shell and Scala. You can view code samples in the dark pane on the right. Switch the programming language with the tabs at the top.
+We provide language bindings in Shell. You can view code samples in the dark pane on the right.
 
 ## Changelog
 
