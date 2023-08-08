@@ -52,7 +52,7 @@ The Partner API uses the [OAuth2 authorization framework](https://tools.ietf.org
 
 In a nutshell :
 
-1.  Register your Client Application in [RedMart Self Serve Portal](https://sellercenter-staging.lazada.sg/portal/rmss/seller/homepage)
+1.  Contact RedMart Partner Support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> to register your Client Application
 2.  Save (securely) your CLIENT_ID and CLIENT_SECRET into your Client Application's database
 3.  Client Application requests an Access Token from Partner API using its CLIENT_ID and CLIENT SECRET
 4.  Client Application uses the Access Token to call Partner API endpoints
@@ -690,7 +690,7 @@ OAuth2 ( Scopes: write:stock-lot )
 The Pickup Jobs API allows you to retrieve scheduled or completed pickup jobs.
 
 <aside class="success">
-This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name.  
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
 </aside>
 
 <aside class="warning">
@@ -773,12 +773,16 @@ _Query and filter pickup jobs. Maximum allowable date range query is 31 days. Un
 | 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)          | OK          | [List of PickupJob](#schemapickupjob) |
 | 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1) | Bad Request | [Problem](#schemaproblem)             |
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-OAuth2 ( Scopes: read:pickup-location )
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
 </aside>
 
-## Get one Pickup Job
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+OAuth2 ( Scopes: read:pickup-job )
+</aside>
+
+## Get Pickup Job
 
 <a id="get-one-pickup-job"></a>
 
@@ -856,6 +860,10 @@ _Querying one pickup job by pickupJobId_
 | ------ | -------------------------------------------------------------- | ------------------------------------------ | ----------------------------- |
 | 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)        | OK                                         | [PickupJob](#schemapickupjob) |
 | 404    | [Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4) | Pickup job associated with store not Found | [Problem](#schemaproblem)     |
+
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
+</aside>
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
