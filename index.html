@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;scala&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -212,7 +212,6 @@
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="scala">scala</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -276,6 +275,17 @@
               </ul>
           </li>
           <li>
+            <a href="#pickup-jobs" class="toc-h1 toc-link" data-title="pickup-jobs">Pickup Jobs</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-pickup-jobs" class="toc-h2 toc-link" data-title="get-pickup-jobs">Get Pickup Jobs</a>
+                  </li>
+                  <li>
+                    <a href="#get-pickup-job" class="toc-h2 toc-link" data-title="get-pickup-job">Get Pickup Job</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#schemas" class="toc-h1 toc-link" data-title="em-schemas-em"><em>Schemas</em></a>
               <ul class="toc-list-h2">
                   <li>
@@ -305,6 +315,18 @@
                   <li>
                     <a href="#tocSpage_product_" class="toc-h2 toc-link" data-title="page_product_">Page_Product_</a>
                   </li>
+                  <li>
+                    <a href="#tocS_PickupJob" class="toc-h2 toc-link" data-title="pickupjob">PickupJob</a>
+                  </li>
+                  <li>
+                    <a href="#tocS_PickupItem" class="toc-h2 toc-link" data-title="pickupitem">PickupItem</a>
+                  </li>
+                  <li>
+                    <a href="#tocS_ShipmentInfo" class="toc-h2 toc-link" data-title="shipmentinfo">ShipmentInfo</a>
+                  </li>
+                  <li>
+                    <a href="#tocSjobstatus" class="toc-h2 toc-link" data-title="jobstatus">JobStatus</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -320,11 +342,9 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>This is the official documentation of RedMart&#39;s Marketplace <strong>Partner API</strong>. Using this private API, you&#39;ll be able to manage your inventory, products, orders, pickups and more! </p>
+<p>This is the official documentation of RedMart&#39;s Marketplace <strong>Partner API</strong>. Using this private API, you&#39;ll be able to manage your inventory, products, orders, pickups and more!</p>
 
-<p>The API effort is still very much Work In Progress. Treat this documentation as a beta version likely to change in the near future.</p>
-
-<p>We provide language bindings in Shell and Scala. You can view code samples in the dark pane on the right. Switch the programming language with the tabs at the top.</p>
+<p>We provide language bindings in Shell. You can view code samples in the dark pane on the right.</p>
 <h2 id='changelog'>Changelog</h2>
 <p>We will list any changes to the current version of the API here.</p>
 
@@ -334,6 +354,18 @@
 <th>Details of changes</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>2023-08-10</td>
+<td>Adds <a href="#pickup-jobs">Pickup Jobs</a> API</td>
+</tr>
+<tr>
+<td></td>
+<td>Adds new <a href="#scopes">scope</a> for pickup jobs query</td>
+</tr>
+<tr>
+<td></td>
+<td>Adds new <a href="#rate-limiting">rate limits</a> for pickup jobs query</td>
+</tr>
 <tr>
 <td>2018-07-06</td>
 <td>Pre-release of RedMart Partner API Document Version 1</td>
@@ -380,17 +412,15 @@
 <h1 id='registration'>Registration</h1>
 <p>The Partner API uses the <a href="https://tools.ietf.org/html/rfc6749">OAuth2 authorization framework</a> and supports the <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials</a> flow.</p>
 
-<p>In a nutshell : </p>
+<p>In a nutshell :</p>
 
 <ol>
-<li>Register your Client Application in <a href="https://partners.redmart.com">partner-portal</a></li>
-<li>Save (securely) your CLIENT_ID and CLIENT_SECRET into your Client Application&#39;s database</li>
-<li>Client Application requests an Access Token from Partner API using its CLIENT_ID and CLIENT SECRET</li>
-<li>Client Application uses the Access Token to call Partner API endpoints</li>
-<li>Once Client Application starts receiving <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2"><em>401 Unauthorized</em></a> responses to its calls, it means the Access Token has expired. It then needs to request another Access Token (step 3) </li>
+<li> Contact RedMart Partner Support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> to register your Client Application</li>
+<li> Save (securely) your CLIENT_ID and CLIENT_SECRET into your Client Application&#39;s database</li>
+<li> Client Application requests an Access Token from Partner API using its CLIENT_ID and CLIENT SECRET</li>
+<li> Client Application uses the Access Token to call Partner API endpoints</li>
+<li> Once Client Application starts receiving <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2"><em>401 Unauthorized</em></a> responses to its calls, it means the Access Token has expired. It then needs to request another Access Token (step 3)</li>
 </ol>
-
-<aside class="warning">The registration phase in partner-portal (step 1) won't actually be part of the initial release and will be invite-only. Contact RedMart directly, provide your Client Application name and we'll register it for you. We'll then forward your CLIENT_ID and CLIENT_SECRET.</aside>
 <h1 id='request-a-token'>Request a Token</h1>
 <p><a id="request-a-token"></a></p>
 
@@ -445,10 +475,10 @@ curl --include -X POST <span class="se">\</span>
 <blockquote>
 <p><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">  
-   </span><span class="s2">"token_type"</span><span class="p">:</span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"access_token"</span><span class="p">:</span><span class="s2">"{access-token}"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expires_in"</span><span class="p">:</span><span class="mi">7200</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">seconds</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{access-token}"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">7200</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">seconds</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h2 id='scopes'>Scopes</h2>
 <p>To call any endpoint of this API, your access token needs to have access to the scope that this specific endpoint requires. As a best practice, you should <em>always</em> only request the smallest possible set of scopes for your application to work. This ensures the smallest possible impact in case anything goes wrong (see also <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">Principle of least privilege</a>).</p>
@@ -474,6 +504,10 @@ curl --include -X POST <span class="se">\</span>
 <tr>
 <td>write:stock-lot</td>
 <td>Grants access to update stock lots of a product</td>
+</tr>
+<tr>
+<td>read:pickup-job</td>
+<td>Grants access to view pickup jobs of a store</td>
 </tr>
 </tbody></table>
 <h1 id='rate-limiting'>Rate Limiting</h1>
@@ -511,6 +545,14 @@ curl --include -X POST <span class="se">\</span>
 </tr>
 <tr>
 <td><a href="#update-one-stock-lot">Update one Stock Lot</a></td>
+<td>10</td>
+</tr>
+<tr>
+<td><a href="#get-pickup-jobs">Get Pickup Jobs</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="#get-one-pickup-job">Get one Pickup Job</a></td>
 <td>10</td>
 </tr>
 </tbody></table>
@@ -624,7 +666,7 @@ curl --include -X GET <span class="se">\</span>
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>OK</td>
-<td><a href="#schemapage_pickuplocation_">Page_PickupLocation_</a></td>
+<td><a href="#schemapage_pickuplocation_">Page*PickupLocation*</a></td>
 </tr>
 </tbody></table>
 
@@ -786,9 +828,7 @@ curl --include -X GET <span class="se">\</span>
   </span><span class="s2">"pageSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
   </span><span class="s2">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"111122223333"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"111122223333"</span><span class="p">],</span><span class="w">
       </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
       </span><span class="p">},</span><span class="w">
@@ -802,9 +842,7 @@ curl --include -X GET <span class="se">\</span>
       </span><span class="s2">"productCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc-merch-specific-choc-cereals-code"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"444455556666"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"444455556666"</span><span class="p">],</span><span class="w">
       </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Disabled"</span><span class="w">
       </span><span class="p">},</span><span class="w">
@@ -818,9 +856,7 @@ curl --include -X GET <span class="se">\</span>
       </span><span class="s2">"productCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc-merch-specific-choc-cereals-code"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"444455556666"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"444455556666"</span><span class="p">],</span><span class="w">
       </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Discontinued"</span><span class="w">
       </span><span class="p">},</span><span class="w">
@@ -851,7 +887,7 @@ curl --include -X GET <span class="se">\</span>
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>OK</td>
-<td><a href="#schemapage_product_">Page_Product_</a></td>
+<td><a href="#schemapage_product_">Page*Product*</a></td>
 </tr>
 </tbody></table>
 
@@ -904,9 +940,7 @@ curl --include -X GET <span class="se">\</span>
 <p>200 Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"111122223333"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"111122223333"</span><span class="p">],</span><span class="w">
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1393,8 +1427,275 @@ curl --include -X PATCH <span class="se">\</span>
 To perform this operation, you must be authenticated by means of one of the following methods:
 OAuth2 ( Scopes: write:stock-lot )
 </aside>
+<h1 id='pickup-jobs'>Pickup Jobs</h1>
+<p>The Pickup Jobs API allows you to retrieve scheduled or completed pickup jobs.</p>
+
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
+</aside>
+
+<aside class="warning">
+To perform all <b>Pickup Jobs</b> operations, you must always send your oauth2 access-token (see the <a href="#request-a-token">Request a Token</a> section).
+Look at the 'Authorization' header in the code samples.
+</aside>
+<h2 id='get-pickup-jobs'>Get Pickup Jobs</h2>
+<p><a id="get-all-pickup-jobs"></a></p>
+
+<blockquote>
+<p>Code samples</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>
+curl --include -X GET <span class="se">\</span>
+     <span class="s2">"https://{HOSTNAME}/v1/pickup-jobs?from=1682870400000&amp;till=1685548800000&amp;statuses=pending"</span> <span class="se">\</span>
+     -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+     -H <span class="s1">'Authorization: Bearer {access-token}'</span>
+
+</code></pre><pre class="highlight scala tab-scala"><code><span class="c1">// TODO
+</span></code></pre>
+<p><code>GET /v1/pickup-jobs</code></p>
+
+<p><em>Query and filter pickup jobs. Maximum allowable date range query is 31 days. Unable to retrieve data older than 180 days.</em></p>
+
+<h3 id="getpickup-jobs-from-till-statuses-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>from</td>
+<td>query</td>
+<td>integer</td>
+<td>true</td>
+<td>Epoch milliseconds of start of date range query</td>
+</tr>
+<tr>
+<td>till</td>
+<td>query</td>
+<td>integer</td>
+<td>false</td>
+<td>Epoch milliseconds of end of date range query</td>
+</tr>
+<tr>
+<td>statuses</td>
+<td>query</td>
+<td>array[string]</td>
+<td>false</td>
+<td>Comma-separated job statuses that you want to include. Refer to <a href="#schemajobstatus">JobStatus</a> for valid statuses</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"scheduledAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135189000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"qtyFulfilledCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">sum</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">qtyFulfilled</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Salmon</span><span class="w"> </span><span class="err">(</span><span class="mi">10</span><span class="err">)</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">qtyFulfilled</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Curry</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amendabilityCutOffDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135989000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"preferredPickupTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13:00-17:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Salmon"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjn1prp1to4"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Curry"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"pickedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684136189000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pickedup"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dry"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"qtyCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">sum</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">qty</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Salmon</span><span class="w"> </span><span class="err">(</span><span class="mi">11</span><span class="err">)</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">qty</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Curry</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="getpickup-jobs-from-till-statuses-responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Description</th>
+<th>Schema</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
+<td>OK</td>
+<td><a href="#schemapickupjob">List of PickupJob</a></td>
+</tr>
+<tr>
+<td>400</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.5.1">Bad Request</a></td>
+<td>Bad Request</td>
+<td><a href="#schemaproblem">Problem</a></td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
+</aside>
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+OAuth2 ( Scopes: read:pickup-job )
+</aside>
+<h2 id='get-pickup-job'>Get Pickup Job</h2>
+<p><a id="get-one-pickup-job"></a></p>
+
+<blockquote>
+<p>Code samples</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>
+curl --include -X GET <span class="se">\</span>
+     <span class="s2">"https://{HOSTNAME}/v1/pickup-jobs/{pickupJobId}"</span> <span class="se">\</span>
+     -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+     -H <span class="s1">'Authorization: Bearer {access-token}'</span>
+
+</code></pre><pre class="highlight scala tab-scala"><code><span class="c1">// TODO
+</span></code></pre>
+<p><code>GET /v1/pickup-jobs/{pickupJobId}</code></p>
+
+<p><em>Querying one pickup job by pickupJobId</em></p>
+
+<h3 id="getpickup-jobs-pickupjobid-parameters">Path Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pickupJobId</td>
+<td>path</td>
+<td>string</td>
+<td>true</td>
+<td>Unique identifier of pickup job</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"scheduledAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135189000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtyFulfilledCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"amendabilityCutOffDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135989000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"preferredPickupTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13:00-17:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Salmon"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjn1prp1to4"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"pickedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684136189000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pickedup"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dry"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtyCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>404 Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Could not find store or pickup job"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="getpickup-jobs-pickupjobid-responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Description</th>
+<th>Schema</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
+<td>OK</td>
+<td><a href="#schemapickupjob">PickupJob</a></td>
+</tr>
+<tr>
+<td>404</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.5.4">Not Found</a></td>
+<td>Pickup job associated with store not Found</td>
+<td><a href="#schemaproblem">Problem</a></td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+This API is <b>invite only</b>. If you want to use this api then please reach out to our support at <a href="mailto:rm_partnersupport@care.lazada.com">rm_partnersupport@care.lazada.com</a> and provide your store name and id.  
+</aside>
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+OAuth2 ( Scopes: read:pickup-job )
+</aside>
 <h1 id='schemas'><em>Schemas</em></h1>
-<p>All schemas referenced in the APIs documented above </p>
+<p>All schemas referenced in the APIs documented above</p>
 
 <h2 id="tocSpickuplocation">PickupLocation</h2>
 
@@ -1408,7 +1709,6 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>PickupLocation</em></p>
 <h3 id='properties'>Properties</h3>
@@ -1478,7 +1778,6 @@ OAuth2 ( Scopes: write:stock-lot )
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"quantityAtPickupLocation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>StockLotUpdate</em></p>
 <h3 id='properties-2'>Properties</h3>
@@ -1506,7 +1805,6 @@ OAuth2 ( Scopes: write:stock-lot )
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>Problem</em></p>
 <h3 id='properties-3'>Properties</h3>
@@ -1534,7 +1832,6 @@ OAuth2 ( Scopes: write:stock-lot )
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>PickupLocationId</em></p>
 <h3 id='properties-4'>Properties</h3>
@@ -1560,9 +1857,7 @@ OAuth2 ( Scopes: write:stock-lot )
 
 <p><a id="schemaproduct"></a></p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"string"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"string"</span><span class="p">],</span><span class="w">
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -1575,7 +1870,6 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="p">],</span><span class="w">
   </span><span class="s2">"productCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>Product</em></p>
 <h3 id='properties-5'>Properties</h3>
@@ -1638,7 +1932,6 @@ OAuth2 ( Scopes: write:stock-lot )
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Disabled"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>Status</em></p>
 <h3 id='properties-6'>Properties</h3>
@@ -1689,7 +1982,6 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="s2">"quantityScheduledForPickup"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
   </span><span class="s2">"quantityAvailableForSale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>StockLot</em></p>
 <h3 id='properties-7'>Properties</h3>
@@ -1751,7 +2043,6 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="p">],</span><span class="w">
   </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>Page«PickupLocation»</em></p>
 <h3 id='properties-8'>Properties</h3>
@@ -1802,9 +2093,7 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="s2">"pageSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
   </span><span class="s2">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"string"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"barcodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"string"</span><span class="p">],</span><span class="w">
       </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
       </span><span class="p">},</span><span class="w">
@@ -1826,7 +2115,6 @@ OAuth2 ( Scopes: write:stock-lot )
   </span><span class="p">],</span><span class="w">
   </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><em>Page«Product»</em></p>
 <h3 id='properties-9'>Properties</h3>
@@ -1866,6 +2154,345 @@ OAuth2 ( Scopes: write:stock-lot )
 <td>false</td>
 <td>none</td>
 <td>none</td>
+</tr>
+</tbody></table>
+
+<h2 id="tocS_PickupJob">PickupJob</h2>
+
+<!-- backwards compatibility -->
+
+<p><a id="schemapickupjob"></a>
+<a id="schema_PickupJob"></a>
+<a id="tocSpickupjob"></a>
+<a id="tocspickupjob"></a></p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"scheduledAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135189000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtyFulfilledCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">sum</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">qtyFulfilled</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Salmon</span><span class="w"> </span><span class="err">(</span><span class="mi">10</span><span class="err">)</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">qtyFulfilled</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Curry</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"amendabilityCutOffDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684135989000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"preferredPickupTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13:00-17:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Salmon"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjn1prp1to4"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Curry"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"pickedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1684136189000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pickedup"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dry"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtyCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">sum</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">qty</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Salmon</span><span class="w"> </span><span class="err">(</span><span class="mi">11</span><span class="err">)</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">qty</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">Curry</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><em>PickupJob</em></p>
+<h3 id='properties-10'>Properties</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>scheduledAt</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+<td>Epoch milliseconds of scheduled pick up time</td>
+</tr>
+<tr>
+<td>qtyFulfilledCount</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>none</td>
+<td>Sum of quantity of all picked up items in the actual job</td>
+</tr>
+<tr>
+<td>amendabilityCutOffDate</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+<td>Epoch milliseconds after which pickup job cannot be amended (if available)</td>
+</tr>
+<tr>
+<td>preferredPickupTime</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+<td>Preferred pickup time/range specified by seller (if applicable)</td>
+</tr>
+<tr>
+<td>items</td>
+<td>[<a href="#schemapickupitem">PickupItem</a>]</td>
+<td>true</td>
+<td>none</td>
+<td>List of items being picked up</td>
+</tr>
+<tr>
+<td>pickedAt</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+<td>Epoch milliseconds of actual pickup time</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+<td>Pickup job id</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>Pickup job status. Refer to <a href="#schemajobstatus">JobStatus</a> for more details</td>
+</tr>
+<tr>
+<td>category</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>Category of products being picked up, e.g. dry, fresh, frozen, etc</td>
+</tr>
+<tr>
+<td>qtyCount</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>none</td>
+<td>Sum of quantity of all items in the scheduled job</td>
+</tr>
+</tbody></table>
+
+<h2 id="tocS_PickupItem">PickupItem</h2>
+
+<!-- backwards compatibility -->
+
+<p><a id="schemapickupitem"></a>
+<a id="schema_PickupItem"></a>
+<a id="tocSpickupitem"></a>
+<a id="tocspickupitem"></a></p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Salmon"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtyFulfilled"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.5 kg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"shipmentsInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjnkprp1to4"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjn1prp1to4"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"minimumExpiryDate"</span><span class="p">:</span><span class="w"> </span><span class="mi">1770357600000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"vpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19739731408"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"rpc"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><em>PickupItem</em></p>
+<h3 id='properties-11'>Properties</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>Name of item</td>
+</tr>
+<tr>
+<td>qtyFulfilled</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>none</td>
+<td>Quantity of the item being picked up in actual job</td>
+</tr>
+<tr>
+<td>sku</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>Stock Keeping Unit (SKU) code for the item</td>
+</tr>
+<tr>
+<td>size</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+<td>The size or dimensions of the item (if available)</td>
+</tr>
+<tr>
+<td>shipmentsInfo</td>
+<td>[<a href="#schemashipmentinfo">ShipmentInfo</a>]</td>
+<td>false</td>
+<td>none</td>
+<td>List of orders for the pickup of this item</td>
+</tr>
+<tr>
+<td>minimumExpiryDate</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+<td>Minimum expiry date of item in epoch milliseconds</td>
+</tr>
+<tr>
+<td>qty</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>none</td>
+<td>Quantity of the item to be picked up in scheduled job</td>
+</tr>
+<tr>
+<td>vpc</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+<td>Variant product code of a parent SKU</td>
+</tr>
+<tr>
+<td>imageUrl</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+<td>The URL of the image associated with the item (if available)</td>
+</tr>
+<tr>
+<td>rpc</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+<td>The RPC (RedMart Product Code) of an item</td>
+</tr>
+</tbody></table>
+
+<h2 id="tocS_ShipmentInfo">ShipmentInfo</h2>
+
+<!-- backwards compatibility -->
+
+<p><a id="schemashipmentinfo"></a>
+<a id="schema_ShipmentInfo"></a>
+<a id="tocSshipmentinfo"></a>
+<a id="tocsshipmentinfo"></a></p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49e74qjn1prp1to4"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><em>ShipmentInfo</em></p>
+<h3 id='properties-12'>Properties</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>qty</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>none</td>
+<td>Quantity of item</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>Unique identifier of the order</td>
+</tr>
+</tbody></table>
+
+<h2 id="tocSjobstatus">JobStatus</h2>
+
+<p><a id="schemajobstatus"></a></p>
+<pre class="highlight json tab-json"><code><span class="s2">"pickedup"</span><span class="w">
+</span></code></pre>
+<p><em>JobStatus</em></p>
+<h3 id='possible-job-status'>Possible Job Status</h3>
+<p>Query using values in string column.</p>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>String</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Pending</td>
+<td>&quot;pending&quot;</td>
+<td>Job pending</td>
+</tr>
+<tr>
+<td>PickupArrived</td>
+<td>&quot;arrived&quot;</td>
+<td>Driver arrived</td>
+</tr>
+<tr>
+<td>PickedUp</td>
+<td>&quot;pickedup&quot;</td>
+<td>Items picked up</td>
+</tr>
+<tr>
+<td>Cancelled</td>
+<td>&quot;cancelled&quot;</td>
+<td>Job cancelled</td>
+</tr>
+<tr>
+<td>PickupFailed</td>
+<td>&quot;failed&quot;</td>
+<td>Pickup failed</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
@@ -1923,7 +2550,6 @@ OAuth2 ( Scopes: write:stock-lot )
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="scala">scala</a>
           </div>
       </div>
     </div>
