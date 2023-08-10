@@ -733,34 +733,55 @@ _Query and filter pickup jobs. Maximum allowable date range query is 31 days. Un
 ```json
 [
   {
-    "scheduledAt": 0,
-    "qtyFulfilledCount": 0,
-    "amendabilityCutOffDate": 0,
-    "preferredPickupTime": "string",
+    "scheduledAt": 1684135189000,
+    "qtyFulfilledCount": 12 // sum of qtyFulfilled of Salmon (10) and qtyFulfilled of Curry (2),
+    "amendabilityCutOffDate": 1684135989000,
+    "preferredPickupTime": "13:00-17:00",
     "items": [
       {
-        "name": "string",
-        "qtyFulfilled": 0,
-        "sku": "string",
-        "size": "string",
+        "name": "Salmon",
+        "qtyFulfilled": 10,
+        "sku": "19739731408",
+        "size": "2.5 kg",
         "shipmentsInfo": [
           {
-            "qty": 0,
-            "orderId": "string"
+            "qty": 5,
+            "orderId": "49e74qjnkprp1to4"
+          },
+          {
+            "qty": 6,
+            "orderId": "49e74qjn1prp1to4"
           }
         ],
-        "minimumExpiryDate": "string",
-        "qty": 0,
-        "vpc": "string",
-        "imageUrl": "string",
-        "rpc": 0
+        "minimumExpiryDate": 1770357600000,
+        "qty": 11,
+        "vpc": "19739731408",
+        "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+        "rpc": 123456
+      },
+      {
+        "name": "Curry",
+        "qtyFulfilled": 2,
+        "sku": "19739731408",
+        "size": "2.5 kg",
+        "shipmentsInfo": [
+          {
+            "qty": 2,
+            "orderId": "49e74qjnkprp1to4"
+          },
+        ],
+        "minimumExpiryDate": 1770357600000,
+        "qty": 2,
+        "vpc": "19739731408",
+        "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+        "rpc": 123456
       }
     ],
-    "pickedAt": 0,
-    "id": 0,
-    "status": "string",
-    "category": "string",
-    "qtyCount": 0
+    "pickedAt": 1684136189000,
+    "id": 123,
+    "status": "pickedup",
+    "category": "Dry",
+    "qtyCount": 13 // sum of qty of Salmon (11) and qty of Curry (2)
   }
 ]
 ```
@@ -814,34 +835,38 @@ _Querying one pickup job by pickupJobId_
 
 ```json
 {
-  "scheduledAt": 0,
-  "qtyFulfilledCount": 0,
-  "amendabilityCutOffDate": 0,
-  "preferredPickupTime": "string",
+  "scheduledAt": 1684135189000,
+  "qtyFulfilledCount": 10,
+  "amendabilityCutOffDate": 1684135989000,
+  "preferredPickupTime": "13:00-17:00",
   "items": [
     {
-      "name": "string",
-      "qtyFulfilled": 0,
-      "sku": "string",
-      "size": "string",
+      "name": "Salmon",
+      "qtyFulfilled": 10,
+      "sku": "19739731408",
+      "size": "2.5 kg",
       "shipmentsInfo": [
         {
-          "qty": 0,
-          "orderId": "string"
+          "qty": 5,
+          "orderId": "49e74qjnkprp1to4"
+        },
+        {
+          "qty": 6,
+          "orderId": "49e74qjn1prp1to4"
         }
       ],
-      "minimumExpiryDate": "string",
-      "qty": 0,
-      "vpc": "string",
-      "imageUrl": "string",
-      "rpc": 0
+      "minimumExpiryDate": 1770357600000,
+      "qty": 11,
+      "vpc": "19739731408",
+      "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+      "rpc": 123456
     }
   ],
-  "pickedAt": 0,
-  "id": 0,
-  "status": "string",
-  "category": "string",
-  "qtyCount": 0
+  "pickedAt": 1684136189000,
+  "id": 123,
+  "status": "pickedup",
+  "category": "Dry",
+  "qtyCount": 11
 }
 ```
 
@@ -1129,34 +1154,55 @@ _Page«Product»_
 
 ```json
 {
-  "scheduledAt": 0,
-  "qtyFulfilledCount": 0,
-  "amendabilityCutOffDate": 0,
-  "preferredPickupTime": "string",
+  "scheduledAt": 1684135189000,
+  "qtyFulfilledCount": 12 // sum of qtyFulfilled of Salmon (10) and qtyFulfilled of Curry (2),
+  "amendabilityCutOffDate": 1684135989000,
+  "preferredPickupTime": "13:00-17:00",
   "items": [
     {
-      "name": "string",
-      "qtyFulfilled": 0,
-      "sku": "string",
-      "size": "string",
+      "name": "Salmon",
+      "qtyFulfilled": 10,
+      "sku": "19739731408",
+      "size": "2.5 kg",
       "shipmentsInfo": [
         {
-          "qty": 0,
-          "orderId": "string"
+          "qty": 5,
+          "orderId": "49e74qjnkprp1to4"
+        },
+        {
+          "qty": 6,
+          "orderId": "49e74qjn1prp1to4"
         }
       ],
-      "minimumExpiryDate": "string",
-      "qty": 0,
-      "vpc": "string",
-      "imageUrl": "string",
-      "rpc": 0
+      "minimumExpiryDate": 1770357600000,
+      "qty": 11,
+      "vpc": "19739731408",
+      "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+      "rpc": 123456
+    },
+    {
+      "name": "Curry",
+      "qtyFulfilled": 2,
+      "sku": "19739731408",
+      "size": "2.5 kg",
+      "shipmentsInfo": [
+        {
+          "qty": 2,
+          "orderId": "49e74qjnkprp1to4"
+        },
+      ],
+      "minimumExpiryDate": 1770357600000,
+      "qty": 2,
+      "vpc": "19739731408",
+      "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+      "rpc": 123456
     }
   ],
-  "pickedAt": 0,
-  "id": 0,
-  "status": "string",
-  "category": "string",
-  "qtyCount": 0
+  "pickedAt": 1684136189000,
+  "id": 123,
+  "status": "pickedup",
+  "category": "Dry",
+  "qtyCount": 13 // sum of qty of Salmon (11) and qty of Curry (2)
 }
 ```
 
@@ -1167,7 +1213,7 @@ _PickupJob_
 | Name                   | Type                              | Required | Restrictions | Description                                                                |
 | ---------------------- | --------------------------------- | -------- | ------------ | -------------------------------------------------------------------------- |
 | scheduledAt            | integer(int64)                    | true     | none         | Epoch milliseconds of scheduled pick up time                               |
-| qtyFulfilledCount      | integer(int32)                    | true     | none         | Actual number of items picked up in the scheduled job                      |
+| qtyFulfilledCount      | integer(int32)                    | true     | none         | Sum of quantity of all picked up items in the actual job                   |
 | amendabilityCutOffDate | integer(int64)                    | false    | none         | Epoch milliseconds after which pickup job cannot be amended (if available) |
 | preferredPickupTime    | string                            | false    | none         | Preferred pickup time/range specified by seller (if applicable)            |
 | items                  | [[PickupItem](#schemapickupitem)] | true     | none         | List of items being picked up                                              |
@@ -1175,7 +1221,7 @@ _PickupJob_
 | id                     | integer(int64)                    | true     | none         | Pickup job id                                                              |
 | status                 | string                            | true     | none         | Pickup job status. Refer to [JobStatus](#schemajobstatus) for more details |
 | category               | string                            | true     | none         | Category of products being picked up, e.g. dry, fresh, frozen, etc         |
-| qtyCount               | integer(int32)                    | true     | none         | Number of items to be picked up in the scheduled job                       |
+| qtyCount               | integer(int32)                    | true     | none         | Sum of quantity of all items in the scheduled job                          |
 
 <h2 id="tocS_PickupItem">PickupItem</h2>
 <!-- backwards compatibility -->
@@ -1186,21 +1232,25 @@ _PickupJob_
 
 ```json
 {
-  "name": "string",
-  "qtyFulfilled": 0,
-  "sku": "string",
-  "size": "string",
+  "name": "Salmon",
+  "qtyFulfilled": 10,
+  "sku": "19739731408",
+  "size": "2.5 kg",
   "shipmentsInfo": [
     {
-      "qty": 0,
-      "orderId": "string"
+      "qty": 5,
+      "orderId": "49e74qjnkprp1to4"
+    },
+    {
+      "qty": 6,
+      "orderId": "49e74qjn1prp1to4"
     }
   ],
-  "minimumExpiryDate": "string",
-  "qty": 0,
-  "vpc": "string",
-  "imageUrl": "string",
-  "rpc": 0
+  "minimumExpiryDate": 1770357600000,
+  "qty": 11,
+  "vpc": "19739731408",
+  "imageUrl": "http://media.redmart.com/newmedia/1600x/i/m/xxx.jpg",
+  "rpc": 123456
 }
 ```
 
@@ -1215,9 +1265,9 @@ _PickupItem_
 | sku               | string                                | true     | none         | Stock Keeping Unit (SKU) code for the item                   |
 | size              | string                                | false    | none         | The size or dimensions of the item (if available)            |
 | shipmentsInfo     | [[ShipmentInfo](#schemashipmentinfo)] | false    | none         | List of orders for the pickup of this item                   |
-| minimumExpiryDate | string                                | false    | none         | Minimum expiry date of item                                  |
+| minimumExpiryDate | integer(int64)                        | false    | none         | Minimum expiry date of item in epoch milliseconds            |
 | qty               | integer(int32)                        | true     | none         | Quantity of the item to be picked up in scheduled job        |
-| vpc               | string                                | false    | none         | none                                                         |
+| vpc               | string                                | false    | none         | Variant product code of a parent SKU                         |
 | imageUrl          | string                                | false    | none         | The URL of the image associated with the item (if available) |
 | rpc               | integer(int64)                        | true     | none         | The RPC (RedMart Product Code) of an item                    |
 
@@ -1230,8 +1280,8 @@ _PickupItem_
 
 ```json
 {
-  "qty": 0,
-  "orderId": "string"
+  "qty": 6,
+  "orderId": "49e74qjn1prp1to4"
 }
 ```
 
